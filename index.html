@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Kenneth Bank | Secure Simulation</title>
+    <style>
+        :root {
+            --light-blue: #e0f2ff;
+            --deep-blue: #0077ff;
+            --glass: rgba(255, 255, 255, 0.8);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        /* Animated Light Blue Background */
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #e0f2ff, #bde0fe, #a2d2ff, #e0f2ff);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 400px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+
+        h1 { color: var(--deep-blue); margin-bottom: 10px; font-weight: 800; }
+        h2 { font-size: 1.2rem; color: #555; margin-bottom: 20px; }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: var(--deep-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        button:hover { background: #0056b3; transform: scale(1.02); }
+
+        .hidden { display: none; }
+        .balance-box { background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .balance-amount { font-size: 2rem; color: #2ecc71; font-weight: bold; }
+
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="bank-app">
+        <h1>To Kenneth Bank</h1>
+
+        <div id="reg-screen">
+            <h2>Create Account</h2>
+            <input type="text" id="reg-name" placeholder="Full Name">
+            <input type="text" id="reg-address" placeholder="Address">
+            <input type="password" id="reg-pass" placeholder="Numeric Password Only" inputmode="numeric" pattern="[0-9]*">
+            <button onclick="handleRegister()">Register</button>
+        </div>
+
+        <div id="login-screen" class="hidden">
+            <h2>Login</h2>
+            <p id="login-welcome"></p>
+            <input type="password" id="login-pass" placeholder="Enter Numeric Password">
+            <button onclick="handleLogin()">Sign In</button>
+        </div>
+
+        <div id="dash-screen" class="hidden">
+            <h2 id="user-display">Welcome, User</h2>
+            <div class="balance-box">
+                <p>Available Balance</p>
+                <div class="balance-amount">$<span id="balance">1000</span></div>
+            </div>
+            
+            <div class="action-grid">
+                <button onclick="transact('deposit')">Deposit</button>
+                <button onclick="transact('withdraw')">Withdraw</button>
+            </div>
+            <button style="background: #6c757d;" onclick="showTransfer()">Transfer Funds</button>
+            <button style="background: transparent; color: #ff4757;" onclick="location.reload()">Logout</button>
+        </div>
+
+        <div id="transfer-screen" class="hidden">
+            <h2>Transfer Funds</h2>
+            <input type="text" id="transfer-to" placeholder="Recipient Name">
+            <input type="number" id="transfer-amount" placeholder="Amount ($)">
+            <button onclick="handleTransfer()">Send Money</button>
+            <button style="background: #ccc; color: #000;" onclick="showDash()">Back</button>
+        </div>
+    </div>
+
+    <script>
+        // Simulation Data
+        let userData = {
+            name: "",
+            address: "",
+            password: "",
+            balance: 1000
+        };
+
+        const screens = {
+            reg: document.getElementById('reg-screen'),
+            login: document.getElementById('login-screen'),
+            dash: document.getElementById('dash-screen'),
+            transfer: document.getElementById('transfer-screen')
+        };
+
+        function hideAll() {
+            Object.values(screens).forEach(s => s.classList.add('hidden'));
+        }
+
+        // 1. Handle Registration
+        function handleRegister() {
+            const name = document.getElementById('reg-name').value;
+            const address = document.getElementById('reg-address').value;
+            const pass = document.getElementById('reg-pass').value;
+
+            if(!name || !address || !pass) return alert("Please fill all fields");
+            if(isNaN(pass)) return alert("Password must be numeric only!");
+
+            userData.name = name;
+            userData.address = address;
+            userData.password = pass;
+
+            hideAll();
+            screens.login.classList.remove('hidden');
+            document.getElementById('login-welcome').innerText = `Hello ${name}, please verify your pin.`;
+        }
+
+        // 2. Handle Login
+        function handleLogin() {
+            const passInput = document.getElementById('login-pass').value;
+            if(passInput === userData.password) {
+                showDash();
+            } else {
+                alert("Incorrect Password!");
+            }
+        }
+
+        function showDash() {
+            hideAll();
+            screens.dash.classList.remove('hidden');
+            document.getElementById('user-display').innerText = `Welcome, ${userData.name}`;
+            document.getElementById('balance').innerText = userData.balance;
+        }
+
+        // 3. Transactions (Deposit/Withdraw)
+        function transact(type) {
+            const amount = parseFloat(prompt(`Enter amount to ${type}:`));
+            if(isNaN(amount) || amount <= 0) return alert("Invalid amount");
+
+            if(type === 'withdraw' && amount > userData.balance) {
+                return alert("Insufficient funds!");
+            }
+
+            userData.balance = type === 'deposit' ? userData.balance + amount : userData.balance - amount;
+            document.getElementById('balance').innerText = userData.balance;
+            alert(`${type.charAt(0).toUpperCase() + type.slice(1)} Successful!`);
+        }
+
+        // 4. Transfer
+        function showTransfer() {
+            hideAll();
+            screens.transfer.classList.remove('hidden');
+        }
+
+        function handleTransfer() {
+            const to = document.getElementById('transfer-to').value;
+            const amt = parseFloat(document.getElementById('transfer-amount').value);
+
+            if(!to || isNaN(amt) || amt <= 0) return alert("Fill all transfer details");
+            if(amt > userData.balance) return alert("Insufficient funds for transfer");
+
+            userData.balance -= amt;
+            alert(`$${amt} successfully transferred to ${to}!`);
+            showDash();
+        }
+    </script>
+</body>
+</html>
