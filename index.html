@@ -3,229 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kenneth Espinosa | IT Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>To Kenneth Bank | Secure Simulation</title>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --accent-color: #38bdf8;
-            --nav-bg: rgba(15, 23, 42, 0.9);
+            --light-blue: #e0f2ff;
+            --deep-blue: #0077ff;
+            --glass: rgba(255, 255, 255, 0.8);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
-            line-height: 1.6;
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0; width: 100%;
-            background: var(--nav-bg);
-            backdrop-filter: blur(10px);
-            padding: 1rem;
-            z-index: 1000;
-            border-bottom: 1px solid #334155;
-        }
-        nav ul {
+        /* Animated Light Blue Background */
+        body {
+            height: 100vh;
             display: flex;
             justify-content: center;
-            list-style: none;
-            gap: 2rem;
-        }
-        nav a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-        nav a:hover { color: var(--accent-color); }
-
-        /* Sections */
-        section { padding: 80px 20px; max-width: 1000px; margin: auto; }
-        h2 { 
-            text-align: center; 
-            font-size: 2.5rem; 
-            margin-bottom: 2rem; 
-            color: var(--accent-color);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* About Section */
-        .profile-container {
-            display: flex;
             align-items: center;
-            gap: 2rem;
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 15px;
+            background: linear-gradient(-45deg, #e0f2ff, #bde0fe, #a2d2ff, #e0f2ff);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
         }
-        .profile-img { width: 250px; border-radius: 10px; border: 3px solid var(--accent-color); }
 
-        /* Projects Grid */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        .card {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 12px;
+
+        .container {
+            width: 400px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow);
             text-align: center;
-            transition: transform 0.3s;
-        }
-        .card:hover { transform: translateY(-10px); }
-        .card img { width: 100%; border-radius: 8px; height: 200px; object-fit: cover; }
-
-        /* Skills */
-        .skills-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .skill-badge {
-            background: var(--accent-color);
-            color: #000;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: bold;
+            transition: all 0.5s ease;
         }
 
-        /* Chatbot UI */
-        #chat-widget {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 300px;
-            background: #fff;
-            color: #333;
-            border-radius: 10px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-            display: none;
-            flex-direction: column;
-            z-index: 1001;
+        h1 { color: var(--deep-blue); margin-bottom: 10px; font-weight: 800; }
+        h2 { font-size: 1.2rem; color: #555; margin-bottom: 20px; }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
         }
-        #chat-header { background: var(--accent-color); padding: 10px; border-radius: 10px 10px 0 0; font-weight: bold; }
-        #chat-body { height: 250px; overflow-y: auto; padding: 10px; font-size: 0.9rem; }
-        #chat-input { border: none; padding: 10px; border-top: 1px solid #ddd; outline: none; }
-        #chat-trigger {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--accent-color);
-            padding: 15px 20px;
-            border-radius: 50px;
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: var(--deep-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-top: 10px;
+            transition: 0.3s;
         }
+
+        button:hover { background: #0056b3; transform: scale(1.02); }
+
+        .hidden { display: none; }
+        .balance-box { background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .balance-amount { font-size: 2rem; color: #2ecc71; font-weight: bold; }
+
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#certificates">Certificates</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+    <div class="container" id="bank-app">
+        <h1>To Kenneth Bank</h1>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <div class="profile-container">
-            <img src="https://kenneth9542.wordpress.com/wp-content/uploads/2026/04/wp-image5057320212915007320.jpg?w=715" class="profile-img" alt="Kenneth Espinosa">
-            <div>
-                <p><strong>Kenneth Espinosa, 20</strong></p>
-                <p>Hailing from La Castellana, Negros Occidental—the home of Bailes De Luces.</p>
-                <p>I am a dedicated <strong>BSIT Student</strong> at Central Philippine State University, passionate about building creative and functional tech solutions.</p>
+        <div id="reg-screen">
+            <h2>Create Account</h2>
+            <input type="text" id="reg-name" placeholder="Full Name">
+            <input type="text" id="reg-address" placeholder="Address">
+            <input type="password" id="reg-pass" placeholder="Numeric Password Only" inputmode="numeric" pattern="[0-9]*">
+            <button onclick="handleRegister()">Register</button>
+        </div>
+
+        <div id="login-screen" class="hidden">
+            <h2>Login</h2>
+            <p id="login-welcome"></p>
+            <input type="password" id="login-pass" placeholder="Enter Numeric Password">
+            <button onclick="handleLogin()">Sign In</button>
+        </div>
+
+        <div id="dash-screen" class="hidden">
+            <h2 id="user-display">Welcome, User</h2>
+            <div class="balance-box">
+                <p>Available Balance</p>
+                <div class="balance-amount">$<span id="balance">1000</span></div>
             </div>
-        </div>
-    </section>
-
-    <section id="projects">
-        <h2>Featured Projects</h2>
-        <div class="grid">
-            <div class="card">
-                <img src="https://kenneth9542.wordpress.com/wp-content/uploads/2026/04/messenger_creation_dff2028d-b696-4233-bc6f-417f0cc5a2064556441811294128454.png?w=654" alt="Chessboard">
-                <h3>Digital Chessboard</h3>
+            
+            <div class="action-grid">
+                <button onclick="transact('deposit')">Deposit</button>
+                <button onclick="transact('withdraw')">Withdraw</button>
             </div>
-            <div class="card">
-                <img src="https://kenneth9542.wordpress.com/wp-content/uploads/2026/04/img_20260408_160039_2431949334295796665429.jpg?w=768" alt="Vending Machine">
-                <h3>Mini Hoop Vending Machine</h3>
-            </div>
+            <button style="background: #6c757d;" onclick="showTransfer()">Transfer Funds</button>
+            <button style="background: transparent; color: #ff4757;" onclick="location.reload()">Logout</button>
         </div>
-    </section>
 
-    <section id="certificates">
-        <h2>Certifications</h2>
-        <div style="text-align: center;">
-            <img src="https://kenneth9542.wordpress.com/wp-content/uploads/2026/04/img_20260420_230959_0897883559325828451454.jpeg?w=940" style="max-width: 100%; border-radius: 10px;" alt="Certificate">
+        <div id="transfer-screen" class="hidden">
+            <h2>Transfer Funds</h2>
+            <input type="text" id="transfer-to" placeholder="Recipient Name">
+            <input type="number" id="transfer-amount" placeholder="Amount ($)">
+            <button onclick="handleTransfer()">Send Money</button>
+            <button style="background: #ccc; color: #000;" onclick="showDash()">Back</button>
         </div>
-    </section>
-
-    <section id="skills">
-        <h2>Technical Skills</h2>
-        <div class="skills-container">
-            <div class="skill-badge">JAVA</div>
-            <div class="skill-badge">HTML</div>
-            <div class="skill-badge">C++</div>
-            <div class="skill-badge">CSS</div>
-        </div>
-    </section>
-
-    <section id="contact">
-        <h2>Get In Touch</h2>
-        <div class="card" style="max-width: 500px; margin: auto;">
-            <p>📧 kennethespinosa032@gmail.com</p>
-            <p>📞 09165445201</p>
-            <p>🌐 FB: Kenneth Ortega Espinosa</p>
-        </div>
-    </section>
-
-    <div id="chat-trigger" onclick="toggleChat()">💬 Chat with Kenneth's AI</div>
-    <div id="chat-widget">
-        <div id="chat-header">Portfolio Assistant</div>
-        <div id="chat-body">
-            <p><strong>AI:</strong> Hi! I'm Kenneth's virtual assistant. Ask me about his skills, projects, or location!</p>
-        </div>
-        <input type="text" id="chat-input" placeholder="Type 'skills' or 'projects'..." onkeypress="handleChat(event)">
     </div>
 
     <script>
-        function toggleChat() {
-            const chat = document.getElementById('chat-widget');
-            chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
-        }
+        // Simulation Data
+        let userData = {
+            name: "",
+            address: "",
+            password: "",
+            balance: 1000
+        };
 
-        function handleChat(e) {
-            if (e.key === 'Enter') {
-                const input = e.target.value.toLowerCase();
-                const body = document.getElementById('chat-body');
-                let response = "I'm not sure about that. Try asking about his 'skills', 'projects', or 'location'.";
+        const screens = {
+            reg: document.getElementById('reg-screen'),
+            login: document.getElementById('login-screen'),
+            dash: document.getElementById('dash-screen'),
+            transfer: document.getElementById('transfer-screen')
+        };
 
-                if (input.includes('skills')) response = "Kenneth is proficient in Java, C++, HTML, and CSS.";
-                if (input.includes('project')) response = "He has built a Digital Chessboard and a Mini Hoop Shot Vending Machine!";
-                if (input.includes('location')) response = "Kenneth is from La Castellana, Negros Occidental.";
-                if (input.includes('hi') || input.includes('hello')) response = "Hello! How can I help you learn more about Kenneth?";
-
-                body.innerHTML += `<p><strong>You:</strong> ${e.target.value}</p>`;
-                body.innerHTML += `<p><strong>AI:</strong> ${response}</p>`;
-                e.target.value = '';
-                body.scrollTop = body.scrollHeight;
-            }
-        }
-    </script>
-</body>
-</html>
+        function hideAll() {
+            Object.values(screens).forEach(s => s.classList.add
