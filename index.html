@@ -139,5 +139,75 @@
         };
 
         function hideAll() {
-            Object.values(screens).forEach(s => s.classList.add
-                                           };
+            Object.values(screens).forEach(s => s.classList.add('hidden'));
+        }
+
+        // 1. Handle Registration
+        function handleRegister() {
+            const name = document.getElementById('reg-name').value;
+            const address = document.getElementById('reg-address').value;
+            const pass = document.getElementById('reg-pass').value;
+
+            if(!name || !address || !pass) return alert("Please fill all fields");
+            if(isNaN(pass)) return alert("Password must be numeric only!");
+
+            userData.name = name;
+            userData.address = address;
+            userData.password = pass;
+
+            hideAll();
+            screens.login.classList.remove('hidden');
+            document.getElementById('login-welcome').innerText = `Hello ${name}, please verify your pin.`;
+        }
+
+        // 2. Handle Login
+        function handleLogin() {
+            const passInput = document.getElementById('login-pass').value;
+            if(passInput === userData.password) {
+                showDash();
+            } else {
+                alert("Incorrect Password!");
+            }
+        }
+
+        function showDash() {
+            hideAll();
+            screens.dash.classList.remove('hidden');
+            document.getElementById('user-display').innerText = `Welcome, ${userData.name}`;
+            document.getElementById('balance').innerText = userData.balance;
+        }
+
+        // 3. Transactions (Deposit/Withdraw)
+        function transact(type) {
+            const amount = parseFloat(prompt(`Enter amount to ${type}:`));
+            if(isNaN(amount) || amount <= 0) return alert("Invalid amount");
+
+            if(type === 'withdraw' && amount > userData.balance) {
+                return alert("Insufficient funds!");
+            }
+
+            userData.balance = type === 'deposit' ? userData.balance + amount : userData.balance - amount;
+            document.getElementById('balance').innerText = userData.balance;
+            alert(`${type.charAt(0).toUpperCase() + type.slice(1)} Successful!`);
+        }
+
+        // 4. Transfer
+        function showTransfer() {
+            hideAll();
+            screens.transfer.classList.remove('hidden');
+        }
+
+        function handleTransfer() {
+            const to = document.getElementById('transfer-to').value;
+            const amt = parseFloat(document.getElementById('transfer-amount').value);
+
+            if(!to || isNaN(amt) || amt <= 0) return alert("Fill all transfer details");
+            if(amt > userData.balance) return alert("Insufficient funds for transfer");
+
+            userData.balance -= amt;
+            alert(`$${amt} successfully transferred to ${to}!`);
+            showDash();
+        }
+    </script>
+</body>
+</html>
