@@ -1,602 +1,545 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barangay E-Services Portal</title>
-    <style>
-        /* CSS Styling: Presentable & Modern Layout */
-        :root {
-            --primary-blue: #0A2540;
-            --primary-blue-hover: #163B61;
-            --accent-gold: #C0A060;
-            --accent-green: #A3D9A5;
-            --bg-light: #F4F7F9;
-            --text-dark: #333333;
-            --text-muted: #666666;
-            --shadow: 0 4px 15px rgba(0,0,0,0.08);
-            --transition: all 0.3s ease;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Rentals - Professional Vehicle Reservation System</title>
+  <style>
+    :root {
+      --primary: #0f172a;       /* Deep Slate/Navy */
+      --accent: #2563eb;        /* Professional Royal Blue */
+      --accent-hover: #1d4ed8;
+      --bg-body: #f1f5f9;
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border: #cbd5e1;
+      --radius: 8px;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+      --shadow-hover: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.05);
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', system-ui, sans-serif;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
 
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      padding: 24px 16px;
+    }
 
-        /* Layout Structure */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
+    /* Header Navigation Bar */
+    header {
+      max-width: 1200px;
+      margin: 0 auto 32px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
 
-        /* Header Navigation */
-        header {
-            background-color: #FFFFFF;
-            padding: 15px 40px;
-            box-shadow: var(--shadow);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #EEEEEE;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      background: var(--accent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius);
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
 
-        .brgy-logo {
-            width: 45px;
-            height: 45px;
-            background-color: var(--primary-blue);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
+    .brand h1 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
 
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-        }
+    /* Main Container Grid */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
 
-        nav a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            transition: color 0.2s;
-        }
+    @media (min-width: 960px) {
+      .container {
+        grid-template-columns: 2.2fr 1fr;
+      }
+    }
 
-        nav a:hover {
-            color: var(--accent-gold);
-        }
+    /* Category Filter Tabs */
+    .filter-wrapper {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
 
-        .btn-auth {
-            padding: 10px 20px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            background-color: var(--primary-blue);
-            color: white;
-            transition: background-color 0.2s;
-        }
+    .filter-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
 
-        .btn-auth:hover {
-            background-color: var(--primary-blue-hover);
-        }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
 
-        /* Hero Portal Title */
-        .portal-header {
-            text-align: center;
-            margin: 30px 0;
-        }
+    /* Vehicle Showcase Grid */
+    .vehicle-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
 
-        .portal-header h1 {
-            font-size: 2.2rem;
-            color: var(--primary-blue);
-        }
+    .vehicle-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
 
-        .portal-header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
+    .vehicle-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
 
-        /* Section 1: Service Cards */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+    .card-top {
+      margin-bottom: 16px;
+    }
 
-        .service-card {
-            background-color: #FFFFFF;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            padding: 25px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-            border: 2px solid transparent;
-        }
+    .badge {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
 
-        .service-card:hover {
-            transform: translateY(-5px);
-            border-color: #DDDDDD;
-        }
+    .vehicle-card h3 {
+      font-size: 1.25rem;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
 
-        /* Visual cue for selected card */
-        .service-card.active {
-            border-color: var(--accent-gold);
-            background-color: #FDFBF7;
-        }
+    .specs-list {
+      display: flex;
+      gap: 12px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
 
-        .service-card .icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
+    .vehicle-price {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
 
-        .service-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            color: var(--primary-blue);
-        }
+    .vehicle-price span {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
 
-        .price-tag {
-            background-color: var(--accent-gold);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: 700;
-            margin-top: 10px;
-            display: inline-block;
-        }
+    .select-btn {
+      width: 100%;
+      background: #ffffff;
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      padding: 10px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
 
-        /* Section 2: Request Form */
-        .main-portal-area {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-        }
+    .select-btn:hover, .select-btn.selected {
+      background: var(--accent);
+      color: #ffffff;
+    }
 
-        .request-form {
-            background-color: #FFFFFF;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-        }
+    /* Booking Form Panel */
+    .booking-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 24px;
+    }
 
-        .form-title {
-            color: var(--primary-blue);
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-            border-bottom: 2px solid var(--bg-light);
-            padding-bottom: 10px;
-        }
+    .booking-panel h2 {
+      font-size: 1.25rem;
+      color: var(--primary);
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+    .form-group {
+      margin-bottom: 16px;
+    }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-dark);
-            font-size: 0.95rem;
-        }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
 
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #DDDDDD;
-            border-radius: 6px;
-            font-size: 1rem;
-            background-color: #FAFAFA;
-            transition: border-color 0.2s;
-        }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      color: var(--text-main);
+      background-color: #fff;
+    }
 
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent-gold);
-            background-color: #FFFFFF;
-        }
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
 
-        textarea {
-            resize: vertical;
-            height: 100px;
-        }
+    /* Financial Calculation Box */
+    .summary-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: var(--radius);
+      margin: 20px 0;
+    }
 
-        /* Section 3: Order Summary */
-        .order-summary {
-            background-color: #FFFFFF;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 90px;
-            align-self: start;
-        }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
 
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #EEE;
-            font-size: 1.05rem;
-        }
+    .summary-row.total {
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+      margin-top: 10px;
+      margin-bottom: 0;
+      color: var(--primary);
+    }
 
-        .summary-item.total {
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: var(--primary-blue);
-            border-bottom: none;
-        }
+    .summary-row.total span:last-child {
+      color: var(--accent);
+    }
 
-        .btn-submit {
-            width: 100%;
-            padding: 15px;
-            background-color: var(--accent-gold);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            transition: var(--transition);
-            margin-top: 10px;
-        }
+    .submit-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      padding: 12px;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
 
-        .btn-submit:hover {
-            background-color: #A88B4F;
-        }
+    .submit-btn:hover {
+      background: var(--accent-hover);
+    }
 
-        /* Section 4: Table */
-        .transactions-section {
-            background-color: #FFFFFF;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            margin-top: 10px;
-            overflow-x: auto;
-        }
+    /* Notification Alert */
+    .alert {
+      padding: 14px;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      margin-top: 16px;
+      display: none;
+      line-height: 1.4;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 0.95rem;
-        }
-
-        th, td {
-            text-align: left;
-            padding: 15px;
-            border-bottom: 1px solid #EEEEEE;
-        }
-
-        th {
-            background-color: var(--bg-light);
-            color: var(--primary-blue);
-            font-weight: 600;
-        }
-
-        .status-badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .status-pending { background-color: #FFECC8; color: #CC9900; }
-        .status-approved { background-color: #D4F9D5; color: #008800; }
-        .status-new { background-color: #E0F2FE; color: #0284C7; }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: -300px;
-            background-color: var(--primary-blue);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            font-weight: 600;
-            transition: right 0.4s ease;
-            z-index: 1000;
-        }
-
-        .toast.show {
-            right: 30px;
-        }
-
-        /* Mobile Responsiveness */
-        @media (max-width: 900px) {
-            .main-portal-area {
-                grid-template-columns: 1fr;
-            }
-            
-            nav ul {
-                display: none; /* Hide nav links on small screens for simplicity */
-            }
-            
-            header {
-                padding: 15px 20px;
-            }
-        }
-    </style>
+    .alert.success {
+      background: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo-section">
-            <div class="brgy-logo">LGU</div>
-            <div class="logo-text">
-                <h2 style="color: var(--primary-blue);">Barangay</h2>
-                <h2 style="margin-top:-8px; font-weight: 400; font-size: 1rem;">E-Services</h2>
-            </div>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Request Documents</a></li>
-                <li><a href="#">Payments</a></li>
-                <li><a href="#">Contact Us</a></li>
-            </ul>
-        </nav>
-        <div class="auth-buttons">
-            <button class="btn-auth">Login / Register</button>
-        </div>
-    </header>
-
-    <div class="container">
-        
-        <div class="portal-header">
-            <h1>Document Request Portal</h1>
-            <p>Select a service to begin your request. Fast, secure, and hassle-free.</p>
-        </div>
-
-        <!-- Section 1: Services Grid -->
-        <section class="services-grid">
-            <div class="service-card" id="card-clearance" onclick="selectService('clearance')">
-                <div class="icon">📄</div>
-                <h3>Barangay Clearance</h3>
-                <p>Official background check for employment or local needs.</p>
-                <span class="price-tag">₱50.00</span>
-            </div>
-            <div class="service-card" id="card-indigency" onclick="selectService('indigency')">
-                <div class="icon">💝</div>
-                <h3>Certificate of Indigency</h3>
-                <p>Required proof of low income for local social assistance.</p>
-                <span class="price-tag">Free</span>
-            </div>
-            <div class="service-card" id="card-business" onclick="selectService('business')">
-                <div class="icon">🏢</div>
-                <h3>Business Permit</h3>
-                <p>Required LGU certification for operating a business.</p>
-                <span class="price-tag">₱150.00</span>
-            </div>
-        </section>
-
-        <!-- Main Workspace -->
-        <div class="main-portal-area">
-            
-            <!-- Section 2: Form -->
-            <section class="request-form">
-                <h2 class="form-title">Step 1: Request Details</h2>
-                
-                <!-- Added ID to form for JS targeting -->
-                <form id="docRequestForm">
-                    <div class="form-group">
-                        <label for="applicantName">Applicant Full Name</label>
-                        <input type="text" id="applicantName" placeholder="e.g. Juan dela Cruz" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="address">Address (Purok/Street)</label>
-                        <input type="text" id="address" placeholder="e.g. Purok 1, Sitio Uno" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="docType">Document Type</label>
-                        <select id="docType" onchange="updateSummary()" required>
-                            <option value="" disabled selected>-- Select Type --</option>
-                            <option value="clearance">Barangay Clearance</option>
-                            <option value="indigency">Certificate of Indigency</option>
-                            <option value="business">Business Permit</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="reason">Reason for Request</label>
-                        <textarea id="reason" placeholder="e.g., Local Employment, Scholarship, Business Application" required></textarea>
-                    </div>
-                </form>
-            </section>
-
-            <!-- Section 3: Summary -->
-            <aside class="order-summary">
-                <h2 class="form-title">Order Summary</h2>
-                <div id="summaryContent">
-                    <p style="color: var(--text-muted); text-align:center; margin-bottom: 20px;">Select a document type to see pricing.</p>
-                </div>
-                <!-- Button moved outside form but linked via JS -->
-                <button class="btn-submit" onclick="submitForm()">Submit Request</button>
-            </aside>
-        </div>
-
-        <!-- Section 4: History -->
-        <section class="transactions-section">
-            <h2 class="form-title">Recent Transactions</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tracking ID</th>
-                        <th>Document Type</th>
-                        <th>Date Requested</th>
-                        <th>Fee</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="transactionTableBody">
-                    <tr>
-                        <td>9000113277122</td>
-                        <td>Certificate of Indigency</td>
-                        <td>March 15, 2024</td>
-                        <td>Free</td>
-                        <td><span class="status-badge status-approved">Approved</span></td>
-                    </tr>
-                    <tr>
-                        <td>9000113277098</td>
-                        <td>Barangay Clearance</td>
-                        <td>March 14, 2024</td>
-                        <td>₱50.00</td>
-                        <td><span class="status-badge status-pending">Pending Approval</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
+  <header>
+    <div class="brand">
+      <div class="brand-logo">A</div>
+      <h1>Apex Drive PH</h1>
     </div>
+    <span style="font-size: 0.875rem; color: var(--text-muted);">Vehicle Fleet Management</span>
+  </header>
 
-    <!-- Toast Element -->
-    <div id="toastMessage" class="toast">Request Submitted Successfully!</div>
+  <div class="container">
+    <!-- Left Panel: Fleet Listing -->
+    <main>
+      <div class="filter-wrapper">
+        <button class="filter-btn active" onclick="filterCategory('All')">All Fleet</button>
+        <button class="filter-btn" onclick="filterCategory('Sedan')">Sedans</button>
+        <button class="filter-btn" onclick="filterCategory('SUV')">SUVs / MPVs</button>
+        <button class="filter-btn" onclick="filterCategory('Motorcycle')">Motorcycles</button>
+      </div>
 
-    <script>
-        // Data Objects
-        const prices = {
-            'clearance': 50.00,
-            'indigency': 0.00,
-            'business': 150.00
-        };
+      <div class="vehicle-grid" id="vehicleContainer"></div>
+    </main>
 
-        const names = {
-            'clearance': 'Barangay Clearance',
-            'indigency': 'Certificate of Indigency',
-            'business': 'Business Permit'
-        };
+    <!-- Right Panel: Reservation Form -->
+    <aside class="booking-panel">
+      <h2>Reserve a Vehicle</h2>
+      <form id="bookingForm" onsubmit="handleBooking(event)">
+        
+        <div class="form-group">
+          <label for="selectedVehicle">Vehicle Selection</label>
+          <select id="selectedVehicle" onchange="onSelectDropdownChange()" required>
+            <option value="" disabled selected>Select a vehicle...</option>
+          </select>
+        </div>
 
-        // UI Update Functions
-        function selectService(serviceType) {
-            // Update dropdown
-            document.getElementById('docType').value = serviceType;
-            
-            // Remove active class from all cards
-            document.querySelectorAll('.service-card').forEach(card => {
-                card.classList.remove('active');
-            });
-            
-            // Add active class to clicked card
-            document.getElementById(`card-${serviceType}`).classList.add('active');
-            
-            // Trigger summary update and scroll
-            updateSummary();
-            document.querySelector('.request-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        <div class="form-group">
+          <label for="customerName">Full Name</label>
+          <input type="text" id="customerName" placeholder="e.g., Juan Dela Cruz" required>
+        </div>
 
-        function updateSummary() {
-            const selectEl = document.getElementById('docType');
-            const summaryDiv = document.getElementById('summaryContent');
-            const serviceKey = selectEl.value;
+        <div class="form-group">
+          <label for="pickupDate">Pickup Date</label>
+          <input type="date" id="pickupDate" onchange="calculateTotal()" required>
+        </div>
 
-            // Ensure cards sync with dropdown changes
-            document.querySelectorAll('.service-card').forEach(card => card.classList.remove('active'));
-            if(serviceKey) {
-                document.getElementById(`card-${serviceKey}`).classList.add('active');
-            }
+        <div class="form-group">
+          <label for="returnDate">Return Date</label>
+          <input type="date" id="returnDate" onchange="calculateTotal()" required>
+        </div>
 
-            if (serviceKey && prices[serviceKey] !== undefined) {
-                const price = prices[serviceKey] === 0 ? "Free" : `₱${prices[serviceKey].toFixed(2)}`;
-                const name = names[serviceKey];
+        <!-- Summary Calculation Box -->
+        <div class="summary-box">
+          <div class="summary-row">
+            <span>Rental Duration:</span>
+            <span id="rentalDays">0 days</span>
+          </div>
+          <div class="summary-row">
+            <span>Daily Rate:</span>
+            <span id="dailyRate">₱0.00</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total Estimated Cost:</span>
+            <span id="totalPrice">₱0.00</span>
+          </div>
+        </div>
 
-                // Fixed typographical error from "Total Total" to "Total Amount"
-                summaryDiv.innerHTML = `
-                    <div class="summary-item">
-                        <span>${name}</span>
-                        <span>${price}</span>
-                    </div>
-                    <div class="summary-item total">
-                        <span>Total Amount</span>
-                        <span>${price}</span>
-                    </div>
-                `;
-            } else {
-                summaryDiv.innerHTML = `<p style="color: var(--text-muted); text-align:center; margin-bottom: 20px;">Select a document type to see pricing.</p>`;
-            }
-        }
+        <button type="submit" class="submit-btn">Confirm Booking</button>
+      </form>
 
-        // Form Submission Logic
-        function submitForm() {
-            const form = document.getElementById('docRequestForm');
-            
-            // Check if standard HTML5 validation passes (required fields filled)
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
+      <div id="statusAlert" class="alert success"></div>
+    </aside>
+  </div>
 
-            // Get form values
-            const docKey = document.getElementById('docType').value;
-            const docName = names[docKey];
-            const fee = prices[docKey] === 0 ? "Free" : `₱${prices[docKey].toFixed(2)}`;
-            
-            // Generate mock data for the new row
-            const trackingId = Math.floor(Math.random() * 9000000000000) + 1000000000000;
-            const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  <script>
+    // --- Data Model in PHP (Philippine Peso) ---
+    const vehicles = [
+      { id: 1, name: "Toyota Vios", category: "Sedan", pricePerDay: 1800, transmission: "Auto", seats: "5 Seats" },
+      { id: 2, name: "Honda City", category: "Sedan", pricePerDay: 2000, transmission: "Auto", seats: "5 Seats" },
+      { id: 3, name: "Toyota Innova", category: "SUV", pricePerDay: 3200, transmission: "Manual", seats: "7 Seats" },
+      { id: 4, name: "Mitsubishi Montero", category: "SUV", pricePerDay: 4500, transmission: "Auto", seats: "7 Seats" },
+      { id: 5, name: "Yamaha NMAX 155", category: "Motorcycle", pricePerDay: 800, transmission: "Auto", seats: "2 Seats" },
+      { id: 6, name: "Honda Click 125i", category: "Motorcycle", pricePerDay: 600, transmission: "Auto", seats: "2 Seats" }
+    ];
 
-            // Create new table row
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td>${trackingId}</td>
-                <td>${docName}</td>
-                <td>${today}</td>
-                <td>${fee}</td>
-                <td><span class="status-badge status-new">Processing</span></td>
-            `;
+    let currentSelectedId = null;
 
-            // Prepend row to table body (adds to top)
-            const tbody = document.getElementById('transactionTableBody');
-            tbody.insertBefore(newRow, tbody.firstChild);
+    // --- DOM Elements ---
+    const vehicleContainer = document.getElementById("vehicleContainer");
+    const dropdown = document.getElementById("selectedVehicle");
+    const pickupInput = document.getElementById("pickupDate");
+    const returnInput = document.getElementById("returnDate");
 
-            // Show Toast Notification
-            const toast = document.getElementById('toastMessage');
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+    // Format utility for PHP Currency
+    const formatPHP = (amount) => {
+      return new Intl.NumberFormat('en-PH', {
+        style: 'currency',
+        currency: 'PHP'
+      }).format(amount);
+    };
 
-            // Reset UI
-            form.reset();
-            document.getElementById('summaryContent').innerHTML = `<p style="color: var(--text-muted); text-align:center; margin-bottom: 20px;">Select a document type to see pricing.</p>`;
-            document.querySelectorAll('.service-card').forEach(card => card.classList.remove('active'));
-        }
-    </script>
+    // Set today as minimum pickup date
+    const today = new Date().toISOString().split("T")[0];
+    pickupInput.min = today;
+    returnInput.min = today;
+
+    // --- Render Fleet Items ---
+    function renderVehicles(categoryFilter = "All") {
+      vehicleContainer.innerHTML = "";
+      
+      const filtered = categoryFilter === "All" 
+        ? vehicles 
+        : vehicles.filter(v => v.category === categoryFilter);
+
+      filtered.forEach(vehicle => {
+        const isSelected = vehicle.id === currentSelectedId;
+        const card = document.createElement("div");
+        card.className = "vehicle-card";
+        card.innerHTML = `
+          <div class="card-top">
+            <span class="badge">${vehicle.category}</span>
+            <h3>${vehicle.name}</h3>
+            <div class="specs-list">
+              <span>⚙️ ${vehicle.transmission}</span>
+              <span>👥 ${vehicle.seats}</span>
+            </div>
+            <div class="vehicle-price">${formatPHP(vehicle.pricePerDay)} <span>/ day</span></div>
+          </div>
+          <button 
+            type="button" 
+            class="select-btn ${isSelected ? 'selected' : ''}" 
+            onclick="selectVehicle(${vehicle.id})">
+            ${isSelected ? 'Selected' : 'Select Vehicle'}
+          </button>
+        `;
+        vehicleContainer.appendChild(card);
+      });
+    }
+
+    function populateDropdown() {
+      dropdown.innerHTML = '<option value="" disabled selected>Select a vehicle...</option>';
+      vehicles.forEach(vehicle => {
+        const option = document.createElement("option");
+        option.value = vehicle.id;
+        option.textContent = `${vehicle.name} (${formatPHP(vehicle.pricePerDay)}/day)`;
+        dropdown.appendChild(option);
+      });
+    }
+
+    // --- Business Logic ---
+    function filterCategory(category) {
+      document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.textContent.includes(category) || (category === 'All' && btn.textContent === 'All Fleet'));
+      });
+      renderVehicles(category);
+    }
+
+    function selectVehicle(id) {
+      currentSelectedId = id;
+      dropdown.value = id;
+      
+      const activeBtn = document.querySelector(".filter-btn.active");
+      const currentCategory = activeBtn.textContent.replace(' Fleet', '').replace('s', '').trim();
+      
+      renderVehicles(currentCategory === 'All' ? 'All' : currentCategory);
+      calculateTotal();
+    }
+
+    function onSelectDropdownChange() {
+      const selectedId = parseInt(dropdown.value);
+      selectVehicle(selectedId);
+    }
+
+    function calculateTotal() {
+      const vehicle = vehicles.find(v => v.id === currentSelectedId);
+      const pickupDate = new Date(pickupInput.value);
+      const returnDate = new Date(returnInput.value);
+
+      if (!vehicle || isNaN(pickupDate) || isNaN(returnDate)) {
+        updateSummary(0, vehicle ? vehicle.pricePerDay : 0, 0);
+        return;
+      }
+
+      if (returnDate <= pickupDate) {
+        returnInput.setCustomValidity("Return date must be later than the pickup date.");
+        updateSummary(0, vehicle.pricePerDay, 0);
+        return;
+      } else {
+        returnInput.setCustomValidity("");
+      }
+
+      const timeDiff = returnDate.getTime() - pickupDate.getTime();
+      const days = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      const total = days * vehicle.pricePerDay;
+
+      updateSummary(days, vehicle.pricePerDay, total);
+    }
+
+    function updateSummary(days, rate, total) {
+      document.getElementById("rentalDays").textContent = `${days} day${days !== 1 ? 's' : ''}`;
+      document.getElementById("dailyRate").textContent = formatPHP(rate);
+      document.getElementById("totalPrice").textContent = formatPHP(total);
+    }
+
+    function handleBooking(event) {
+      event.preventDefault();
+
+      const customerName = document.getElementById("customerName").value;
+      const vehicle = vehicles.find(v => v.id === currentSelectedId);
+      const daysText = document.getElementById("rentalDays").textContent;
+      const totalText = document.getElementById("totalPrice").textContent;
+
+      if (!vehicle) {
+        alert("Please select a vehicle to proceed.");
+        return;
+      }
+
+      const alertBox = document.getElementById("statusAlert");
+      alertBox.style.display = "block";
+      alertBox.innerHTML = `<strong>Booking Confirmed!</strong><br>Thank you, ${customerName}. You reserved the <strong>${vehicle.name}</strong> for ${daysText}. Total: <strong>${totalText}</strong>.`;
+
+      // Reset form
+      document.getElementById("bookingForm").reset();
+      currentSelectedId = null;
+      renderVehicles("All");
+      updateSummary(0, 0, 0);
+
+      setTimeout(() => {
+        alertBox.style.display = "none";
+      }, 6000);
+    }
+
+    // Initial load
+    renderVehicles();
+    populateDropdown();
+  </script>
 </body>
 </html>
