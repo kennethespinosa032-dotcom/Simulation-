@@ -3,211 +3,594 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To Kenneth Bank | Secure Simulation</title>
+    <title>Barangay Online Resident Portal</title>
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
         :root {
-            --light-blue: #e0f2ff;
-            --deep-blue: #0077ff;
-            --glass: rgba(255, 255, 255, 0.8);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --primary: #1e3a8a;
+            --primary-light: #eff6ff;
+            --primary-accent: #2563eb;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+            
+            --success-bg: #dcfce7;
+            --success-text: #15803d;
+            --warning-bg: #fef3c7;
+            --warning-text: #b45309;
+            --danger-bg: #fee2e2;
+            --danger-text: #b91c1c;
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-        /* Animated Light Blue Background */
         body {
-            height: 100vh;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Header --- */
+        header {
+            background: #0b1329;
+            color: white;
+            padding: 16px 32px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-container {
+            max-width: 1100px;
+            margin: 0 auto;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            background: linear-gradient(-45deg, #e0f2ff, #bde0fe, #a2d2ff, #e0f2ff);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            overflow: hidden;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
 
-        .container {
-            width: 400px;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 30px;
+        .brand-logo {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #2563eb, #1e3a8a);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .brand-info h1 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-info p {
+            font-size: 0.78rem;
+            color: #94a3b8;
+        }
+
+        .portal-badge {
+            background: rgba(37, 99, 235, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            padding: 6px 14px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* --- Layout --- */
+        main {
+            max-width: 1100px;
+            margin: 36px auto;
+            padding: 0 24px;
+        }
+
+        /* --- Tabs --- */
+        .navigation-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 28px;
+            background: #e2e8f0;
+            padding: 4px;
+            border-radius: var(--radius-md);
+            width: fit-content;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn.active {
+            background: var(--bg-card);
+            color: var(--primary-accent);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Cards & Containers --- */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 32px;
             box-shadow: var(--shadow);
-            text-align: center;
-            transition: all 0.5s ease;
         }
 
-        h1 { color: var(--deep-blue); margin-bottom: 10px; font-weight: 800; }
-        h2 { font-size: 1.2rem; color: #555; margin-bottom: 20px; }
+        .card-title-group {
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 16px;
+        }
 
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+        .card-title-group h2 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .card-title-group p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* --- Form Elements --- */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.col-span-2 {
+            grid-column: span 2;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        input, select, textarea {
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.92rem;
+            font-family: inherit;
+            color: var(--text-dark);
+            background: #fff;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
             outline: none;
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
         }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background: var(--deep-blue);
+        .btn-primary {
+            background: var(--primary-accent);
             color: white;
             border: none;
-            border-radius: 8px;
+            padding: 14px 24px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.95rem;
             cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
-            transition: 0.3s;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        button:hover { background: #0056b3; transform: scale(1.02); }
+        .btn-primary:hover {
+            background: #1d4ed8;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+        }
 
-        .hidden { display: none; }
-        .balance-box { background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-        .balance-amount { font-size: 2rem; color: #2ecc71; font-weight: bold; }
+        /* --- Dashboard Analytics Cards --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
 
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .stat-data h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .stat-data p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* --- Data Tables --- */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+
+        th {
+            background-color: #f8fafc;
+            padding: 14px 18px;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.725rem;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--border);
+            background: white;
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .badge-pending { background: var(--warning-bg); color: var(--warning-text); }
+        .badge-approved { background: var(--success-bg); color: var(--success-text); }
+        .badge-rejected { background: var(--danger-bg); color: var(--danger-text); }
+
+        .select-status {
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        /* --- Modal --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            max-width: 440px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+        }
+
+        .modal-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--success-bg);
+            color: var(--success-text);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 16px;
+        }
+
+        .ref-display {
+            background: var(--primary-light);
+            border: 2px dashed var(--primary-accent);
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            font-family: monospace;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-accent);
+            margin: 18px 0;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.col-span-2 { grid-column: span 1; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .navigation-tabs { width: 100%; overflow-x: auto; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container" id="bank-app">
-        <h1>To Kenneth Bank</h1>
-
-        <div id="reg-screen">
-            <h2>Create Account</h2>
-            <input type="text" id="reg-name" placeholder="Full Name">
-            <input type="text" id="reg-address" placeholder="Address">
-            <input type="password" id="reg-pass" placeholder="Numeric Password Only" inputmode="numeric" pattern="[0-9]*">
-            <button onclick="handleRegister()">Register</button>
-        </div>
-
-        <div id="login-screen" class="hidden">
-            <h2>Login</h2>
-            <p id="login-welcome"></p>
-            <input type="password" id="login-pass" placeholder="Enter Numeric Password">
-            <button onclick="handleLogin()">Sign In</button>
-        </div>
-
-        <div id="dash-screen" class="hidden">
-            <h2 id="user-display">Welcome, User</h2>
-            <div class="balance-box">
-                <p>Available Balance</p>
-                <div class="balance-amount">$<span id="balance">1000</span></div>
+    <!-- Header Navigation -->
+    <header>
+        <div class="header-container">
+            <div class="brand">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <div class="brand-info">
+                    <h1>Barangay Online Portal</h1>
+                    <p>Official Digital Public Document & Citizen Services System</p>
+                </div>
             </div>
+            <div class="portal-badge">
+                <i class="fa-solid fa-shield-halved"></i> Verified Official Portal
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Navigation Controls -->
+        <nav class="navigation-tabs">
+            <button class="tab-btn active" onclick="switchTab('request-tab')">
+                <i class="fa-solid fa-file-signature"></i> File Application
+            </button>
+            <button class="tab-btn" onclick="switchTab('track-tab')">
+                <i class="fa-solid fa-magnifying-glass"></i> Track Request
+            </button>
+            <button class="tab-btn" onclick="switchTab('admin-tab')">
+                <i class="fa-solid fa-user-shield"></i> Admin Dashboard
+            </button>
+        </nav>
+
+        <!-- Tab 1: Application Form -->
+        <div id="request-tab" class="tab-pane active">
+            <div class="card">
+                <div class="card-title-group">
+                    <h2>Document Application Form</h2>
+                    <p>Please enter your verified details to avoid delays in document processing.</p>
+                </div>
+
+                <form id="applicationForm" onsubmit="handleFormSubmission(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fullName"><i class="fa-solid fa-user"></i> Full Name</label>
+                            <input type="text" id="fullName" placeholder="e.g. Juan A. Dela Cruz" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone"><i class="fa-solid fa-phone"></i> Mobile Phone Number</label>
+                            <input type="tel" id="phone" placeholder="09171234567" pattern="[0-9]{11}" title="Please enter a valid 11-digit mobile number" required>
+                        </div>
+
+                        <div class="form-group col-span-2">
+                            <label for="address"><i class="fa-solid fa-location-dot"></i> Complete Address</label>
+                            <input type="text" id="address" placeholder="House No., Street Name, Purok/Zone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="docType"><i class="fa-solid fa-file-lines"></i> Select Document</label>
+                            <select id="docType" onchange="updateFee()" required>
+                                <option value="Barangay Clearance">Barangay Clearance</option>
+                                <option value="Certificate of Indigency">Certificate of Indigency</option>
+                                <option value="Certificate of Residency">Certificate of Residency</option>
+                                <option value="Business Permit Clearance">Business Permit Clearance</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="feeDisplay"><i class="fa-solid fa-receipt"></i> Document Fee</label>
+                            <input type="text" id="feeDisplay" value="₱50.00" readonly style="background-color: #f8fafc; font-weight: 700;">
+                        </div>
+
+                        <div class="form-group col-span-2">
+                            <label for="purpose"><i class="fa-solid fa-circle-info"></i> Purpose of Request</label>
+                            <textarea id="purpose" rows="3" placeholder="State your specific reason (e.g. Local Employment, Scholarship Requirement, Bank Account Opening)" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary col-span-2">
+                            <i class="fa-solid fa-paper-plane"></i> Submit Application
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tab 2: Resident Status Tracker -->
+        <div id="track-tab" class="tab-pane">
+            <div class="card">
+                <div class="card-title-group">
+                    <h2>Track Application Status</h2>
+                    <p>Enter your Reference Number or Name to query document progress.</p>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <input type="text" id="residentSearch" placeholder="Type Reference Code (e.g. BRGY-2026-1029) or Applicant Name..." onkeyup="filterResidentTable()">
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Reference Code</th>
+                                <th>Applicant</th>
+                                <th>Document</th>
+                                <th>Date Filed</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="residentTableBody">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Official / Admin Dashboard -->
+        <div id="admin-tab" class="tab-pane">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #dbeafe; color: #1e40af;">
+                        <i class="fa-solid fa-folder-open"></i>
+                    </div>
+                    <div class="stat-data">
+                        <h3 id="statTotal">0</h3>
+                        <p>Total Requests</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--warning-bg); color: var(--warning-text);">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div class="stat-data">
+                        <h3 id="statPending">0</h3>
+                        <p>Pending Processing</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--success-bg); color: var(--success-text);">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="stat-data">
+                        <h3 id="statApproved">0</h3>
+                        <p>Approved / Issued</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title-group" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h2>Admin Document Queue</h2>
+                        <p>Manage, review, and update application approval statuses.</p>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ref Code</th>
+                                <th>Applicant Details</th>
+                                <th>Requested Doc</th>
+                                <th>Status Action</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTableBody">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-card">
+            <div class="modal-icon">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h2>Submission Successful</h2>
+            <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 6px;">
+                Your application has been logged. Keep track using this reference code:
+            </p>
             
-            <div class="action-grid">
-                <button onclick="transact('deposit')">Deposit</button>
-                <button onclick="transact('withdraw')">Withdraw</button>
-            </div>
-            <button style="background: #6c757d;" onclick="showTransfer()">Transfer Funds</button>
-            <button style="background: transparent; color: #ff4757;" onclick="location.reload()">Logout</button>
-        </div>
-
-        <div id="transfer-screen" class="hidden">
-            <h2>Transfer Funds</h2>
-            <input type="text" id="transfer-to" placeholder="Recipient Name">
-            <input type="number" id="transfer-amount" placeholder="Amount ($)">
-            <button onclick="handleTransfer()">Send Money</button>
-            <button style="background: #ccc; color: #000;" onclick="showDash()">Back</button>
-        </div>
-    </div>
-
-    <script>
-        // Simulation Data
-        let userData = {
-            name: "",
-            address: "",
-            password: "",
-            balance: 1000
-        };
-
-        const screens = {
-            reg: document.getElementById('reg-screen'),
-            login: document.getElementById('login-screen'),
-            dash: document.getElementById('dash-screen'),
-            transfer: document.getElementById('transfer-screen')
-        };
-
-        function hideAll() {
-            Object.values(screens).forEach(s => s.classList.add('hidden'));
-        }
-
-        // 1. Handle Registration
-        function handleRegister() {
-            const name = document.getElementById('reg-name').value;
-            const address = document.getElementById('reg-address').value;
-            const pass = document.getElementById('reg-pass').value;
-
-            if(!name || !address || !pass) return alert("Please fill all fields");
-            if(isNaN(pass)) return alert("Password must be numeric only!");
-
-            userData.name = name;
-            userData.address = address;
-            userData.password = pass;
-
-            hideAll();
-            screens.login.classList.remove('hidden');
-            document.getElementById('login-welcome').innerText = `Hello ${name}, please verify your pin.`;
-        }
-
-        // 2. Handle Login
-        function handleLogin() {
-            const passInput = document.getElementById('login-pass').value;
-            if(passInput === userData.password) {
-                showDash();
-            } else {
-                alert("Incorrect Password!");
-            }
-        }
-
-        function showDash() {
-            hideAll();
-            screens.dash.classList.remove('hidden');
-            document.getElementById('user-display').innerText = `Welcome, ${userData.name}`;
-            document.getElementById('balance').innerText = userData.balance;
-        }
-
-        // 3. Transactions (Deposit/Withdraw)
-        function transact(type) {
-            const amount = parseFloat(prompt(`Enter amount to ${type}:`));
-            if(isNaN(amount) || amount <= 0) return alert("Invalid amount");
-
-            if(type === 'withdraw' && amount > userData.balance) {
-                return alert("Insufficient funds!");
-            }
-
-            userData.balance = type === 'deposit' ? userData.balance + amount : userData.balance - amount;
-            document.getElementById('balance').innerText = userData.balance;
-            alert(`${type.charAt(0).toUpperCase() + type.slice(1)} Successful!`);
-        }
-
-        // 4. Transfer
-        function showTransfer() {
-            hideAll();
-            screens.transfer.classList.remove('hidden');
-        }
-
-        function handleTransfer() {
-            const to = document.getElementById('transfer-to').value;
-            const amt = parseFloat(document.getElementById('transfer-amount').value);
-
-            if(!to || isNaN(amt) || amt <= 0) return alert("Fill all transfer details");
-            if(amt > userData.balance) return alert("Insufficient funds for transfer");
-
-            userData.balance -= amt;
-            alert(`$${amt} successfully transferred to ${to}!`);
-            showDash();
-        }
-    </script>
-</body>
-</html>
+            <div class="ref-display" id="refDisplayCode">BRGY-
